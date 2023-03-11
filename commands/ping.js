@@ -21,7 +21,7 @@ module.exports = {
     } else {
       try {
         await interaction.reply({ content: `${id}` });
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 19; i++) {
           await interaction.followUp({ content: `${id}` });
         }
       } catch (e) {
