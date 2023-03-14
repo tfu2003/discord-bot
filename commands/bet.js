@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("discord.js");
 const { EmbedBuilder } = require("discord.js");
+const profileModel = require("../models/profileSchema");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -34,12 +35,29 @@ module.exports = {
       errors: ["time"],
     });
 
-    collector.on("collect", (reaction, user) => {
+    collector.on("collect", async (reaction, user) => {
       if (reaction.emoji.name === "⬆️") {
         if (user.id != 990453979202867211 && !ids.includes(user.id)) {
-          message.reply(`${user} thinks over.`);
-          ids.push(user.id);
-          overs.push(`<@${user.id}>`);
+          profileData = await profileModel.findOne({
+            userID: interaction.user.id,
+          });
+          if (profileData.points >= 1000) {
+            subtractedPoints = profileData.points - 1000;
+
+            await profileModel.updateOne(
+              { userID: interaction.user.id },
+              { $set: { points: subtractedPoints } }
+            );
+            profileData = await profileModel.findOne({
+              userID: interaction.user.id,
+            });
+
+            message.reply(`${user} thinks over.`);
+            ids.push(user.id);
+            overs.push(`<@${user.id}>`);
+          } else {
+            message.reply(`You do not have enough points to bet ${user}.`);
+          }
         }
       } else {
         if (user.id != 990453979202867211 && !ids.includes(user.id)) {
