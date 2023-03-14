@@ -8,16 +8,18 @@ module.exports = {
       option.setName("amount").setDescription("Over what number?")
     ),
   async execute(interaction) {
+    var ids = [];
     const amount = interaction.options.getNumber("amount");
     const message = await interaction.reply({
       content: `Over ${amount}?`,
       fetchReply: true,
     });
 
-	await interaction.followUp({ content: "You have 20 seconds to place your bets." });
+    await interaction.followUp({
+      content: "You have 20 seconds to place your bets.",
+    });
 
     message.react("⬆️").then(() => message.react("⬇️"));
-
     const filter = (reaction, user) => {
       return ["⬆️", "⬇️"].includes(reaction.emoji.name);
     };
@@ -29,21 +31,22 @@ module.exports = {
       errors: ["time"],
     });
 
-
     collector.on("collect", (reaction, user) => {
       if (reaction.emoji.name === "⬆️") {
-		if (user.id != 990453979202867211) {
-        message.reply(`${user} thinks over.`);
-		}
+        if (user.id != 990453979202867211 && !(ids.includes(user.id))) {
+          message.reply(`${user} thinks over.`);
+          ids.push(user.id);
+        }
       } else {
-		if (user.id != 990453979202867211) {
-        message.reply(`${user} thinks under.`);
-		}
+        if (user.id != 990453979202867211 && !(ids.includes(user.id))) {
+          message.reply(`${user} thinks under.`);
+          ids.push(user.id);
+        }
       }
     });
 
     collector.on("end", (collected) => {
-		message.reply("Betting time has ended.");
+      message.reply("Betting time has ended.");
     });
   },
 };
