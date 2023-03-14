@@ -45,22 +45,5 @@ module.exports = {
     collector.on("end", (collected) => {
 		message.reply("Betting time has ended.");
     });
-
-    // message
-    //   .awaitReactions({ filter, max: 1, time: 10000, errors: ["time"] })
-    //   .then((collected) => {
-    //     const reaction = collected.first();
-
-    //     if (reaction.emoji.name === "⬆️") {
-    //       message.reply("You reacted with a thumbs up.");
-    //     } else {
-    //       message.reply("You reacted with a thumbs down.");
-    //     }
-    //   })
-    //   .catch((collected) => {
-    //     message.reply(
-    //       "You reacted with neither a thumbs up, nor a thumbs down."
-    //     );
-    //   });
   },
 };
