@@ -81,8 +81,7 @@ client.on("guildMemberAdd", async (guildMember) => {
     let profile = await profileModel.create({
       userID: guildMember.id,
       serverID: guildMember.guild.id,
-      coins: 1000,
-      bank: 0,
+      coins: 1000
     });
     profile.save();
   }
