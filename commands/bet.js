@@ -13,6 +13,7 @@ module.exports = {
     var ids = [];
     var overs = [];
     var unders = [];
+    const map = new Map();
     const amount = interaction.options.getNumber("amount");
     const message = await interaction.reply({
       content: `Over ${amount} kills?`,
@@ -36,34 +37,42 @@ module.exports = {
     });
 
     collector.on("collect", async (reaction, user) => {
+      profileData = await profileModel.findOne({
+        userID: interaction.user.id,
+      });
+      subtractedPoints = profileData.points - 1000;
+
       if (reaction.emoji.name === "⬆️") {
         if (user.id != 990453979202867211 && !ids.includes(user.id)) {
-          profileData = await profileModel.findOne({
-            userID: interaction.user.id,
-          });
           if (profileData.points >= 1000) {
-            subtractedPoints = profileData.points - 1000;
-
             await profileModel.updateOne(
               { userID: interaction.user.id },
               { $set: { points: subtractedPoints } }
             );
-            profileData = await profileModel.findOne({
-              userID: interaction.user.id,
-            });
 
             message.reply(`${user} thinks over.`);
             ids.push(user.id);
             overs.push(`<@${user.id}>`);
+            map.set(`${user.id}`, true);
           } else {
             message.reply(`You do not have enough points to bet ${user}.`);
           }
         }
       } else {
         if (user.id != 990453979202867211 && !ids.includes(user.id)) {
-          message.reply(`${user} thinks under.`);
-          ids.push(user.id);
-          unders.push(`<@${user.id}>`);
+          if (profileData.points >= 1000) {
+            await profileModel.updateOne(
+              { userID: interaction.user.id },
+              { $set: { points: subtractedPoints } }
+            );
+
+            message.reply(`${user} thinks under.`);
+            ids.push(user.id);
+            unders.push(`<@${user.id}>`);
+            map.set(`${user.id}`, false);
+          } else {
+            message.reply(`You do not have enough points to bet ${user}.`);
+          }
         }
       }
     });
@@ -106,6 +115,18 @@ module.exports = {
                 " "
               )}.`
             );
+            map.forEach(async (value, key, map) => {
+              if (value == true) {
+                profileData = await profileModel.findOne({
+                  userID: interaction.user.id,
+                });
+                addedPoints = profileData.points + 2000;
+                await profileModel.updateOne(
+                  { userID: key },
+                  { $set: { points: addedPoints } }
+                );
+              }
+            });
             result.delete();
           } else {
             message.reply(`The result was over ${amount}. Nobody won.`);
@@ -119,6 +140,18 @@ module.exports = {
                   " "
                 )}.`
               );
+              map.forEach(async (value, key, map) => {
+                if (value == false) {
+                  profileData = await profileModel.findOne({
+                    userID: interaction.user.id,
+                  });
+                  addedPoints = profileData.points + 2000;
+                  await profileModel.updateOne(
+                    { userID: key },
+                    { $set: { points: addedPoints } }
+                  );
+                }
+              });
               result.delete();
             } else {
               message.reply(`The result was under ${amount}. Nobody won.`);
