@@ -40,11 +40,12 @@ module.exports = {
       profileData = await profileModel.findOne({
         userID: interaction.user.id,
       });
-      subtractedPoints = profileData.points - 1000;
-
       if (reaction.emoji.name === "⬆️") {
         if (user.id != 990453979202867211 && !ids.includes(user.id)) {
-          if (profileData.points >= 1000) {
+          if (profileData == null) {
+            message.reply(`Create a profile with /create to bet ${user}.`);
+          } else if (profileData.points >= 1000) {
+            subtractedPoints = profileData.points - 1000;
             await profileModel.updateOne(
               { userID: interaction.user.id },
               { $set: { points: subtractedPoints } }
@@ -60,12 +61,14 @@ module.exports = {
         }
       } else {
         if (user.id != 990453979202867211 && !ids.includes(user.id)) {
-          if (profileData.points >= 1000) {
+          if (profileData >= null) {
+            message.reply(`Create a profile with /create to bet ${user}.`);
+          } else if (profileData.points >= 1000) {
+            subtractedPoints = profileData.points - 1000;
             await profileModel.updateOne(
               { userID: interaction.user.id },
               { $set: { points: subtractedPoints } }
             );
-
             message.reply(`${user} thinks under.`);
             ids.push(user.id);
             unders.push(`<@${user.id}>`);
