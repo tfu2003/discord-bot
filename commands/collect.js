@@ -20,7 +20,7 @@ module.exports = {
             { $set: { points: newPoints } }
           );
           await interaction.reply({
-            content: `You now have ${newPoints} points.`,
+            content: `You now have ${newPoints} points <@${interaction.user.id}>.`,
           });
           setTimeout(() => {
             usedCommand.delete(interaction.user.id);
