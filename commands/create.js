@@ -12,7 +12,7 @@ module.exports = {
             let profile = await profileModel.create({
                 userID: interaction.user.id,
                 serverID: interaction.guildId,
-                money: 1000
+                points: 1000
             });
             profile.save();
             await interaction.reply({ content: "You successfully created a new profile."});
