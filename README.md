@@ -6,3 +6,5 @@ Some possible commands that users can use implemented in the bot:
 - !lb. Check the top 5 point collectors in the server.
 - !slots. Play slots and hope to win it big.
 - !bet. Make bets in a server to wager your points.
+
+Currently looking to revamp to add general purposes commands.
