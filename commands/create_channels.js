@@ -1,9 +1,8 @@
 const { SlashCommandBuilder } = require("discord.js");
-const { Permissions } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("channels")
+    .setName("create_channels")
     .setDescription("Create voice channels.")
     .addNumberOption((option) =>
       option.setName("amount").setDescription("Number of voice channels")
