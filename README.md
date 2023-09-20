@@ -8,3 +8,6 @@ Some possible commands that users can use implemented in the bot:
 - !bet. Make bets in a server to wager your points.
 
 Currently looking to revamp to add general purposes commands.
+
+- !create_channels. Create a specified number of voice channels.
+- !delete_channels. Deletes all the created voice channels from create_channels.
