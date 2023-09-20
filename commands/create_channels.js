@@ -15,7 +15,7 @@ module.exports = {
           name: `VC${i + 1}`,
           type: 2,
         });
-        channel = channel.setParent("1145266464631291971");
+        channel = channel.setParent("1081013182551826484");
       }
       await interaction.reply("Channels created successfully!");
     } catch (e) {
