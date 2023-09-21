@@ -12,10 +12,12 @@ module.exports = {
       }
     });
     const channel = interaction.member.voice.channel;
-    interaction.member.voice
-      .setChannel(channels[Math.floor(Math.random() * channels.length)])
-      .catch((err) => console.log(err));
+    for (const [, member] of channel.members) {
+      await member.voice
+        .setChannel(channels[Math.floor(Math.random() * channels.length)])
+        .catch((err) => console.log(err));
+    }
 
-    await interaction.reply("You were moved!");
+    await interaction.reply("Members were moved!");
   },
 };
