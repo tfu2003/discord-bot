@@ -25,7 +25,7 @@ module.exports = {
         { userID: interaction.user.id },
         { $set: { points: newPoints } }
       );
-      if ((slots[first] === slots[second]) === slots[third]) {
+      if ((slots[first] === slots[second]) && slots[first] === slots[third]) {
         const slotsEmbed = new EmbedBuilder()
           .setColor(0x0099ff)
           .setTitle("Slot Machine")
