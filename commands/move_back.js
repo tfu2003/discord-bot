@@ -3,7 +3,7 @@ const { SlashCommandBuilder } = require("discord.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("move_back")
-    .setDescription("Move to a random created voice channel"),
+    .setDescription("Move back to the designated voice channels."),
   async execute(interaction) {
     const channels = [];
     interaction.guild.channels.cache.forEach((channel) => {
@@ -11,17 +11,19 @@ module.exports = {
         channels.push(channel);
       }
     });
-    const channel = interaction.member.voice.channel;
-    for (const [, member] of channel.members) {
-      await member.voice
-        .setChannel(channels[Math.floor(Math.random() * channels.length)])
-        .catch((err) => console.log(err));
+    const parent = "1081013182551826486";
+    for (c of channels) {
+      for (const [, member] of c.members) {
+        await member.voice
+          .setChannel(parent)
+          .catch((err) => console.log(err));
+      }
     }
 
     if (channels.length === 0) {
-        await interaction.reply("Could not find any created voice channels.");
+      await interaction.reply("Could not find any members in created voice channels.");
     } else {
-        await interaction.reply("Members were moved!");
+      await interaction.reply("Members were moved!");
     }
   },
 };
