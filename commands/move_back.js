@@ -14,6 +14,7 @@ module.exports = {
     const parent = "1081013182551826486";
     for (c of channels) {
       for (const [, member] of c.members) {
+        console.log(member);
         await member.voice
           .setChannel(parent)
           .catch((err) => console.log(err));

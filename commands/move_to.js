@@ -11,7 +11,8 @@ module.exports = {
         channels.push(channel);
       }
     });
-    const channel = interaction.member.voice.channel;
+    const channel = await interaction.member.voice.channel;
+    console.log(channel.members);
     for (const [, member] of channel.members) {
       await member.voice
         .setChannel(channels[Math.floor(Math.random() * channels.length)])
@@ -19,9 +20,9 @@ module.exports = {
     }
 
     if (channels.length === 0) {
-        await interaction.reply("Could not find any created voice channels.");
+      await interaction.reply("Could not find any created voice channels.");
     } else {
-        await interaction.reply("Members were moved!");
+      await interaction.reply("Members were moved!");
     }
   },
 };
