@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("move")
+    .setName("move_back")
     .setDescription("Move to a random created voice channel"),
   async execute(interaction) {
     const channels = [];
@@ -18,6 +18,10 @@ module.exports = {
         .catch((err) => console.log(err));
     }
 
-    await interaction.reply("Members were moved!");
+    if (channels.length === 0) {
+        await interaction.reply("Could not find any created voice channels.");
+    } else {
+        await interaction.reply("Members were moved!");
+    }
   },
 };
